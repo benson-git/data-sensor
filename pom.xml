@@ -156,7 +156,9 @@
 	</build>
 
 	<modules>
-    <module>data-import</module>
-  </modules>
+    <module>data-importer</module>
+    <module>data-common</module>
+    <module>data-exporter</module>
+	</modules>
 
 </project>
