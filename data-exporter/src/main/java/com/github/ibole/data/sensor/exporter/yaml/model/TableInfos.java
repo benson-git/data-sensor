@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.github.ibole.data.sensor.importer.yaml.model;
+package com.github.ibole.data.sensor.exporter.yaml.model;
 
 import com.github.ibole.data.sensor.common.handler.TableInfo;
 

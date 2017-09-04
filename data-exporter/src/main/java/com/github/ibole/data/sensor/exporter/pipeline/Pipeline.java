@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.github.ibole.data.sensor.common.handler;
+package com.github.ibole.data.sensor.exporter.pipeline;
 
-import com.github.ibole.data.sensor.common.model.canal.DbTable;
+import com.github.ibole.data.sensor.common.handler.Handler;
 
 /*********************************************************************************************.
  * 
@@ -26,44 +26,19 @@ import com.github.ibole.data.sensor.common.model.canal.DbTable;
  *********************************************************************************************/
 
 /**
- * 数据处理器.
+ * 管道接口.
  * 
  * @author bwang
  *
  */
-public interface Handler {
-  /**
-   * 初始化.
-   * 
-   * @param tableInfo 初始化数据TableInfo.
-   */
-  void init(TableInfo tableInfo, boolean global);
-  
-  /**
-   * 判断是否匹配该Handler进行数据处理的前提条件.
-   * 
-   * @param dbTable
-   * @return boolean True if matching, otherwise return false.
-   */
-  boolean match(DbTable dbTable);
-  
-  /**
-   * 处理匹配的表元数据.
-   * @param runtimeData Handler运行时要处理的数据.
-   */
-  void handle(RuntimeData runtimeData);
-  
-  /**
-   * 获取下一个处理器.
-   * 
-   * @return Handler 下一个处理器.
-   */
-  Handler getNext();
-  
-  /**
-   * 设置下一个处理器.
-   * 
-   * @param handler 下一个处理器.
-   */
-  void setNext(Handler handler);
+public interface Pipeline {
+
+  public Handler getFirst();
+
+  public Handler getBasic();
+
+  public void setBasic(Handler handler);
+
+  public void addHandler(Handler handler);
+
 }

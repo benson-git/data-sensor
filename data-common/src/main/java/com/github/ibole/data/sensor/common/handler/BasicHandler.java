@@ -17,6 +17,7 @@ package com.github.ibole.data.sensor.common.handler;
 
 import com.github.ibole.data.sensor.common.model.canal.DbTable;
 
+
 /*********************************************************************************************.
  * 
  * 
@@ -26,44 +27,24 @@ import com.github.ibole.data.sensor.common.model.canal.DbTable;
  *********************************************************************************************/
 
 /**
- * 数据处理器.
  * 
  * @author bwang
  *
  */
-public interface Handler {
-  /**
-   * 初始化.
-   * 
-   * @param tableInfo 初始化数据TableInfo.
-   */
-  void init(TableInfo tableInfo, boolean global);
+public class BasicHandler extends AbstractHandler {
+
+
+  @Override
+  public boolean match(DbTable dbTable) {
+    
+    return false;
+  }
+
+  @Override
+  public void doHandle(RuntimeData runtimeData) {
   
-  /**
-   * 判断是否匹配该Handler进行数据处理的前提条件.
-   * 
-   * @param dbTable
-   * @return boolean True if matching, otherwise return false.
-   */
-  boolean match(DbTable dbTable);
-  
-  /**
-   * 处理匹配的表元数据.
-   * @param runtimeData Handler运行时要处理的数据.
-   */
-  void handle(RuntimeData runtimeData);
-  
-  /**
-   * 获取下一个处理器.
-   * 
-   * @return Handler 下一个处理器.
-   */
-  Handler getNext();
-  
-  /**
-   * 设置下一个处理器.
-   * 
-   * @param handler 下一个处理器.
-   */
-  void setNext(Handler handler);
+    logger.info("执行Handler '{} '", this.getClass().getName());
+
+  }
+
 }

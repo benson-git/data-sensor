@@ -1,0 +1,32 @@
+#Global意味这些表的数据的更新的影响是全局的，需要全部全新处理缓存数据
+ global:
+      #疾病匹配专家规则 >
+    - tableName: AMNT_MatchingRule
+      columnNames: 
+       - ItemScore
+       - ItemMaxScore
+      eventTypes:
+       - update
+      handler: 
+         !ExampleHandler {}
+      #专家评定(专家个人得分) >
+    - tableName: AMNT_Specialist
+      columnNames:
+       - Score
+      eventTypes:
+       - truncate
+       - update
+       - insert
+       - delete
+      handler: 
+         !ExampleHandler {} 
+      #专家主研疾病评分 >
+    - tableName: AMNT_SpecMainResScore
+      #不明确指定列名，表示监听所有列字段
+      #columnNames:
+      #不明确指定事件，表示监听所有事件
+      handler: 
+         !ExampleHandler {}              
+                        
+ individual:
+       

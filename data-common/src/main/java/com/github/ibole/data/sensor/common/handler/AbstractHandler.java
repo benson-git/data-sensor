@@ -103,8 +103,6 @@ public abstract class AbstractHandler implements Handler {
 
     if (match(runtimeData.getDbTable()) && !runtimeData.isGlobalHandler()) {
 
-      syncCache();
-
       doHandle(runtimeData);
 
       // 设置该Handler是否global
