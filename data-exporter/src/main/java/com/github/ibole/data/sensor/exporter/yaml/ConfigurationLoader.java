@@ -15,10 +15,10 @@
  */
 package com.github.ibole.data.sensor.exporter.yaml;
 
-import com.github.ibole.data.sensor.common.handler.BasicHandler;
-import com.github.ibole.data.sensor.common.handler.Handler;
-import com.github.ibole.data.sensor.common.handler.TableInfo;
-import com.github.ibole.data.sensor.exporter.handler.ExampleHandler;
+import com.github.ibole.data.sensor.common.monitor.BasicHandler;
+import com.github.ibole.data.sensor.common.monitor.Monitor;
+import com.github.ibole.data.sensor.common.monitor.TableInfo;
+import com.github.ibole.data.sensor.exporter.monitor.ExampleMonitor;
 import com.github.ibole.data.sensor.exporter.pipeline.Pipeline;
 import com.github.ibole.data.sensor.exporter.pipeline.StandardPipeline;
 import com.github.ibole.data.sensor.exporter.yaml.model.TableInfos;
@@ -32,6 +32,7 @@ import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
 
+import java.util.HashMap;
 import java.util.List;
 
 /*********************************************************************************************.
@@ -54,9 +55,9 @@ public final class ConfigurationLoader {
 
   private static final String DATA_SENSOR_YAML = "data-sensor.yaml";
   
-  private static final String GLOBAL = "global";
+  private static final String MONITORINGS = "monitoring";
   
-  private static final String INDIVIDUAL = "individual";
+  private static final String TAGS = "registry";
 
   private ConfigurationLoader() {}
   
@@ -72,30 +73,29 @@ public final class ConfigurationLoader {
   private static Pipeline loadYamlConfig() {
     Constructor constructor = new Constructor(TableInfos.class);
     TypeDescription projectDesc = new TypeDescription(TableInfos.class);
-    projectDesc.putListPropertyType(GLOBAL, TableInfo.class);
-    projectDesc.putListPropertyType(INDIVIDUAL, TableInfo.class);
+    projectDesc.putListPropertyType(MONITORINGS, TableInfo.class);
+    projectDesc.putListPropertyType(TAGS, HashMap.class);
     constructor.addTypeDescription(
-        new TypeDescription(ExampleHandler.class, "!ExampleHandler"));
+        new TypeDescription(ExampleMonitor.class, "!ExampleMonitor"));
     constructor.addTypeDescription(projectDesc);
     constructor.getPropertyUtils().setSkipMissingProperties(true);
     Yaml yaml = new Yaml(constructor);
-    TableInfos tableMonitoring = yaml.loadAs(
+    TableInfos tableInfos = yaml.loadAs(
     		ClassHelper.getClassLoader().getResourceAsStream(DATA_SENSOR_YAML), TableInfos.class);
 
     Pipeline pipeLine = new StandardPipeline();
     pipeLine.setBasic(new BasicHandler());
 
-    return toHandlers(tableMonitoring, pipeLine);
+    return toHandlers(tableInfos, pipeLine);
   }
 
-  private static Pipeline toHandlers(TableInfos tableMonitoring, Pipeline pipeLine) {
+  private static Pipeline toHandlers(TableInfos tableInfos, Pipeline pipeLine) {
 
-    List<TableInfo> gTableInfos = tableMonitoring.getGlobal();
-    List<TableInfo> iTableInfos = tableMonitoring.getIndividual();
+    List<TableInfo> monitorings = tableInfos.getMonitoring();
     
-    if (gTableInfos != null) {
-      for (TableInfo info : gTableInfos) {
-        Handler handler = info.getHandler();
+    if (monitorings != null) {
+      for (TableInfo info : monitorings) {
+        Monitor handler = info.getMonitor();
         if (handler != null) {
           handler.init(info, true);
           pipeLine.addHandler(handler);
@@ -104,17 +104,7 @@ public final class ConfigurationLoader {
         }
       }
     }
-    if (iTableInfos != null) {
-      for (TableInfo info : iTableInfos) {
-        Handler handler = info.getHandler();
-        if (handler != null) {
-          handler.init(info, false);
-          pipeLine.addHandler(handler);
-        } else {
-          logger.warn("No hanlder defined for '{}'", info.getTableName());
-        }
-      }
-    }
+
     return pipeLine;
   }
 

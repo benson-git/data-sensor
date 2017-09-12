@@ -13,11 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.github.ibole.data.sensor.common.handler;
+package com.github.ibole.data.sensor.common.monitor;
 
 import com.github.ibole.data.sensor.common.model.canal.DbTable;
 
-import com.google.common.base.MoreObjects;
 
 /*********************************************************************************************.
  * 
@@ -28,50 +27,24 @@ import com.google.common.base.MoreObjects;
  *********************************************************************************************/
 
 /**
- * 在管道流处理过程中的运行时数据,会被各个handler处理.
  * 
  * @author bwang
  *
  */
-public class RuntimeData {
+public class BasicHandler extends AbstractMonitor {
 
-  private DbTable dbTable;
-  //是否在管道流的处理过程中,有global handler处理过DbTable.
-  private boolean globalHandler;
 
-  /**
-   * @return the dbTable
-   */
-  public DbTable getDbTable() {
-    return dbTable;
-  }
-
-  /**
-   * @param dbTable the dbTable to set
-   */
-  public void setDbTable(DbTable dbTable) {
-    this.dbTable = dbTable;
-  }
-
-  /**
-   * @return the globalHandler
-   */
-  public boolean isGlobalHandler() {
-    return globalHandler;
-  }
-
-  /**
-   * @param globalHandler the globalHandler to set
-   */
-  public void setGlobalHandler(boolean globalHandler) {
-    this.globalHandler = globalHandler;
-  }
-  
   @Override
-  public String toString() {
-    return MoreObjects.toStringHelper(this)
-        .add("dbTable", dbTable)
-        .add("globalHandler", globalHandler).toString();
+  public boolean match(DbTable dbTable) {
+    
+    return false;
+  }
+
+  @Override
+  public void doProcess(RuntimeData runtimeData) {
+  
+    logger.info("执行Handler '{} '", this.getClass().getName());
 
   }
+
 }

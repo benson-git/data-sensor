@@ -13,17 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.github.ibole.data.sensor.exporter.yaml.model;
+package com.github.ibole.data.sensor.common.monitor;
 
-import com.github.ibole.data.sensor.common.monitor.Monitor;
-import com.github.ibole.data.sensor.common.monitor.TableInfo;
+import com.github.ibole.data.sensor.common.model.canal.DbTable;
 
 import com.google.common.base.MoreObjects;
-
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /*********************************************************************************************.
  * 
@@ -34,45 +28,50 @@ import java.util.Map;
  *********************************************************************************************/
 
 /**
+ * 在管道流处理过程中的运行时数据,会被各个handler处理.
+ * 
  * @author bwang
  *
  */
-public class TableInfos {
+public class RuntimeData {
 
-  private List<TableInfo> monitoring = Collections.emptyList();
-  private Map<String, Monitor> registry = new HashMap<>();
+  private DbTable dbTable;
+  //是否在管道流的处理过程中,有global handler处理过DbTable.
+  private boolean globalHandler;
+
+  /**
+   * @return the dbTable
+   */
+  public DbTable getDbTable() {
+    return dbTable;
+  }
+
+  /**
+   * @param dbTable the dbTable to set
+   */
+  public void setDbTable(DbTable dbTable) {
+    this.dbTable = dbTable;
+  }
+
+  /**
+   * @return the globalHandler
+   */
+  public boolean isGlobalHandler() {
+    return globalHandler;
+  }
+
+  /**
+   * @param globalHandler the globalHandler to set
+   */
+  public void setGlobalHandler(boolean globalHandler) {
+    this.globalHandler = globalHandler;
+  }
   
-  /**
-   * @return the monitoring
-   */
-  public List<TableInfo> getMonitoring() {
-    return monitoring;
-  }
-  /**
-   * @param monitoring the monitoring to set
-   */
-  public void setMonitoring(List<TableInfo> global) {
-    this.monitoring = global;
-  }
-  /**
-   * @return the registry
-   */
-  public Map<String, Monitor> getRegistry() {
-    return registry;
-  }
-  /**
-   * @param registry the registry to set
-   */
-  public void setRegistry(Map<String, Monitor> registry) {
-    this.registry = registry;
-  }
-
-
   @Override
   public String toString() {
     return MoreObjects.toStringHelper(this)
-        .add("monitoring", monitoring)
-        .add("registry", registry).toString();
+        .add("dbTable", dbTable)
+        .add("globalHandler", globalHandler).toString();
 
   }
 }

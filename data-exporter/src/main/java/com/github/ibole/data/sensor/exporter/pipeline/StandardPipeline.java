@@ -15,7 +15,7 @@
  */
 package com.github.ibole.data.sensor.exporter.pipeline;
 
-import com.github.ibole.data.sensor.common.handler.Handler;
+import com.github.ibole.data.sensor.common.monitor.Monitor;
 
 /*********************************************************************************************.
  * 
@@ -34,16 +34,16 @@ import com.github.ibole.data.sensor.common.handler.Handler;
  */
 public class StandardPipeline implements Pipeline {
   
-  protected Handler first = null;
+  protected Monitor first = null;
   //基础处理器，最后被处理.
-  protected Handler basic = null;
+  protected Monitor basic = null;
 
-  public void addHandler(Handler handler) {
+  public void addHandler(Monitor handler) {
     if (first == null) {
       first = handler;
       handler.setNext(basic);
     } else {
-      Handler current = first;
+      Monitor current = first;
       while (current != null) {
         if (current.getNext() == basic) {
           current.setNext(handler);
@@ -55,15 +55,15 @@ public class StandardPipeline implements Pipeline {
     }
   }
 
-  public Handler getBasic() {
+  public Monitor getBasic() {
     return basic;
   }
 
-  public Handler getFirst() {
+  public Monitor getFirst() {
     return first;
   }
 
-  public void setBasic(Handler handler) {
+  public void setBasic(Monitor handler) {
     this.basic = handler;
   }
 

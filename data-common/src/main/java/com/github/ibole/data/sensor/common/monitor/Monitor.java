@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.github.ibole.data.sensor.common.handler;
+package com.github.ibole.data.sensor.common.monitor;
 
 import com.github.ibole.data.sensor.common.model.canal.DbTable;
 
@@ -26,12 +26,12 @@ import com.github.ibole.data.sensor.common.model.canal.DbTable;
  *********************************************************************************************/
 
 /**
- * 数据处理器.
+ * 数据监控处理器.
  * 
  * @author bwang
  *
  */
-public interface Handler {
+public interface Monitor {
   /**
    * 初始化.
    * 
@@ -40,7 +40,7 @@ public interface Handler {
   void init(TableInfo tableInfo, boolean global);
   
   /**
-   * 判断是否匹配该Handler进行数据处理的前提条件.
+   * 判断是否匹配该Monitor进行数据处理的前提条件.
    * 
    * @param dbTable
    * @return boolean True if matching, otherwise return false.
@@ -51,19 +51,19 @@ public interface Handler {
    * 处理匹配的表元数据.
    * @param runtimeData Handler运行时要处理的数据.
    */
-  void handle(RuntimeData runtimeData);
+  void process(RuntimeData runtimeData);
   
   /**
    * 获取下一个处理器.
    * 
-   * @return Handler 下一个处理器.
+   * @return Monitor 下一个处理器.
    */
-  Handler getNext();
+  Monitor getNext();
   
   /**
    * 设置下一个处理器.
    * 
-   * @param handler 下一个处理器.
+   * @param  monitor 下一个处理器.
    */
-  void setNext(Handler handler);
+  void setNext(Monitor monitor);
 }

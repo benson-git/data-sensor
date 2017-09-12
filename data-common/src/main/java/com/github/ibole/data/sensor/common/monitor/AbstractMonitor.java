@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.github.ibole.data.sensor.common.handler;
+package com.github.ibole.data.sensor.common.monitor;
 
 import com.github.ibole.data.sensor.common.model.canal.DbColumn;
 import com.github.ibole.data.sensor.common.model.canal.DbRow;
@@ -37,7 +37,7 @@ import java.util.List;
  * @author bwang
  *
  */
-public abstract class AbstractHandler implements Handler {
+public abstract class AbstractMonitor implements Monitor {
 
   public static final String UPDATE_EVENT = "update";
 
@@ -45,7 +45,7 @@ public abstract class AbstractHandler implements Handler {
 
   protected TableInfo tableInfo;
 
-  protected Handler nextHandler;
+  protected Monitor nextMonitor;
 
   protected boolean global;
 
@@ -68,21 +68,21 @@ public abstract class AbstractHandler implements Handler {
   /**
    * 获取下一个处理器.
    * 
-   * @return Handler 下一个处理器.
+   * @return Monitor 下一个处理器.
    */
   @Override
-  public Handler getNext() {
-    return this.nextHandler;
+  public Monitor getNext() {
+    return this.nextMonitor;
   }
 
   /**
    * 设置下一个处理器.
    * 
-   * @param handler 下一个处理器.
+   * @param monitor 下一个处理器.
    */
   @Override
-  public void setNext(Handler handler) {
-    this.nextHandler = handler;
+  public void setNext(Monitor monitor) {
+    this.nextMonitor = monitor;
   }
 
   /**
@@ -92,18 +92,18 @@ public abstract class AbstractHandler implements Handler {
     return global;
   }
 
-  public abstract void doHandle(RuntimeData runtimeData);
+  public abstract void doProcess(RuntimeData runtimeData);
 
   /**
    * 处理匹配计算.
    * 
    * @param dbTable 运行时Handler要处理的数据.
    */
-  public void handle(RuntimeData runtimeData) {
+  public void process(RuntimeData runtimeData) {
 
     if (match(runtimeData.getDbTable()) && !runtimeData.isGlobalHandler()) {
 
-      doHandle(runtimeData);
+      doProcess(runtimeData);
 
       // 设置该Handler是否global
       if (global) {
@@ -114,7 +114,7 @@ public abstract class AbstractHandler implements Handler {
     }
 
     if (getNext() != null) {
-      getNext().handle(runtimeData);
+      getNext().process(runtimeData);
     }
 
   }

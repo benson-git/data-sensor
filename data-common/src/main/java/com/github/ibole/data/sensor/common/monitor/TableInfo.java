@@ -13,23 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.github.ibole.data.sensor.common.handler;
+package com.github.ibole.data.sensor.common.monitor;
 
-/*
- * Copyright 2016-2017 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 import com.google.common.base.MoreObjects;
 
 import java.util.List;
@@ -57,7 +42,7 @@ public class TableInfo {
   
   private List<String> eventTypes;
   
-  private Handler handler;
+  private Monitor monitor;
 
   /**
    * @return the tableName
@@ -93,17 +78,17 @@ public class TableInfo {
   }
   
   /**
-   * @return the handler
+   * @return the monitor
    */
-  public Handler getHandler() {
-    return handler;
+  public Monitor getMonitor() {
+    return monitor;
   }
 
   /**
-   * @param handler the handler to set
+   * @param monitor the monitor to set
    */
-  public void setHandler(Handler handler) {
-    this.handler = handler;
+  public void setMonitor(Monitor handler) {
+    this.monitor = handler;
   }
 
   /**
@@ -131,7 +116,7 @@ public class TableInfo {
         .add("tableName", tableName)
         .add("columnNames", columnNames)
         .add("eventTypes", eventTypes)
-        .add("handler", handler)
+        .add("monitor", monitor)
         .toString();
 
   }

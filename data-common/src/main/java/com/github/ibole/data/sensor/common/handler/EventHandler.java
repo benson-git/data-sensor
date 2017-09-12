@@ -13,38 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.github.ibole.data.sensor.common.handler;
-
-import com.github.ibole.data.sensor.common.model.canal.DbTable;
-
 
 /*********************************************************************************************.
  * 
  * 
- * <p>Copyright 2016, iBole Inc. All rights reserved.
+ * <p>Copyright 2017, iBole Inc. All rights reserved.
  * 
  * <p></p>
  *********************************************************************************************/
 
 /**
- * 
  * @author bwang
  *
  */
-public class BasicHandler extends AbstractHandler {
-
-
-  @Override
-  public boolean match(DbTable dbTable) {
-    
-    return false;
-  }
-
-  @Override
-  public void doHandle(RuntimeData runtimeData) {
-  
-    logger.info("执行Handler '{} '", this.getClass().getName());
-
-  }
+public interface EventHandler {
 
 }

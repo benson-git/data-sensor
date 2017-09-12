@@ -15,7 +15,7 @@
  */
 package com.github.ibole.data.sensor.exporter.pipeline;
 
-import com.github.ibole.data.sensor.common.handler.Handler;
+import com.github.ibole.data.sensor.common.monitor.Monitor;
 
 /*********************************************************************************************.
  * 
@@ -33,12 +33,12 @@ import com.github.ibole.data.sensor.common.handler.Handler;
  */
 public interface Pipeline {
 
-  public Handler getFirst();
+  public Monitor getFirst();
 
-  public Handler getBasic();
+  public Monitor getBasic();
 
-  public void setBasic(Handler handler);
+  public void setBasic(Monitor handler);
 
-  public void addHandler(Handler handler);
+  public void addHandler(Monitor handler);
 
 }
