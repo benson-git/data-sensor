@@ -13,9 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.github.ibole.data.sensor.common.monitor;
+package com.github.ibole.data.sensor.common.handler;
 
 import com.github.ibole.data.sensor.common.model.canal.DbTable;
+import com.github.ibole.data.sensor.common.model.yaml.ColumnRenamingRule;
+import com.github.ibole.data.sensor.common.model.yaml.TableInfo;
+
+import java.util.List;
 
 /*********************************************************************************************.
  * 
@@ -31,13 +35,14 @@ import com.github.ibole.data.sensor.common.model.canal.DbTable;
  * @author bwang
  *
  */
-public interface Monitor {
+public interface Handler {
   /**
    * 初始化.
    * 
    * @param tableInfo 初始化数据TableInfo.
+   * @param mapperRule 列名重命名规则.
    */
-  void init(TableInfo tableInfo, boolean global);
+  void init(TableInfo tableInfo, List<ColumnRenamingRule> mapperRule);
   
   /**
    * 判断是否匹配该Monitor进行数据处理的前提条件.
@@ -45,7 +50,7 @@ public interface Monitor {
    * @param dbTable
    * @return boolean True if matching, otherwise return false.
    */
-  boolean match(DbTable dbTable);
+  boolean filter(DbTable dbTable);
   
   /**
    * 处理匹配的表元数据.
@@ -56,14 +61,14 @@ public interface Monitor {
   /**
    * 获取下一个处理器.
    * 
-   * @return Monitor 下一个处理器.
+   * @return Handler 下一个处理器.
    */
-  Monitor getNext();
+  Handler getNext();
   
   /**
    * 设置下一个处理器.
    * 
    * @param  monitor 下一个处理器.
    */
-  void setNext(Monitor monitor);
+  void setNext(Handler monitor);
 }

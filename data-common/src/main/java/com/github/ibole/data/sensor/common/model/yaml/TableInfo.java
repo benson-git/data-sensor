@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.github.ibole.data.sensor.common.monitor;
+package com.github.ibole.data.sensor.common.model.yaml;
 
 import com.google.common.base.MoreObjects;
 
@@ -42,7 +42,7 @@ public class TableInfo {
   
   private List<String> eventTypes;
   
-  private Monitor monitor;
+  private String handler;
 
   /**
    * @return the tableName
@@ -78,17 +78,17 @@ public class TableInfo {
   }
   
   /**
-   * @return the monitor
+   * @return the handler
    */
-  public Monitor getMonitor() {
-    return monitor;
+  public String getHandler() {
+    return handler;
   }
 
   /**
-   * @param monitor the monitor to set
+   * @param handler the handler to set
    */
-  public void setMonitor(Monitor handler) {
-    this.monitor = handler;
+  public void setHandler(String handler) {
+    this.handler = handler;
   }
 
   /**
@@ -116,7 +116,7 @@ public class TableInfo {
         .add("tableName", tableName)
         .add("columnNames", columnNames)
         .add("eventTypes", eventTypes)
-        .add("monitor", monitor)
+        .add("handler", handler)
         .toString();
 
   }

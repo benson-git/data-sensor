@@ -15,13 +15,13 @@
  */
 package com.github.ibole.data.sensor.exporter.yaml;
 
-import com.github.ibole.data.sensor.common.monitor.BasicHandler;
-import com.github.ibole.data.sensor.common.monitor.Monitor;
-import com.github.ibole.data.sensor.common.monitor.TableInfo;
-import com.github.ibole.data.sensor.exporter.monitor.ExampleMonitor;
+import com.github.ibole.data.sensor.common.handler.BasicHandler;
+import com.github.ibole.data.sensor.common.handler.Handler;
+import com.github.ibole.data.sensor.common.model.yaml.ColumnRenamingRule;
+import com.github.ibole.data.sensor.common.model.yaml.TableInfo;
+import com.github.ibole.data.sensor.common.model.yaml.TableInfos;
 import com.github.ibole.data.sensor.exporter.pipeline.Pipeline;
 import com.github.ibole.data.sensor.exporter.pipeline.StandardPipeline;
-import com.github.ibole.data.sensor.exporter.yaml.model.TableInfos;
 import com.github.ibole.infrastructure.common.utils.ClassHelper;
 
 import com.google.common.collect.Lists;
@@ -32,7 +32,6 @@ import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
 
-import java.util.HashMap;
 import java.util.List;
 
 /*********************************************************************************************.
@@ -51,61 +50,65 @@ import java.util.List;
  */
 public final class ConfigurationLoader {
 
-  private static final Logger logger = LoggerFactory.getLogger(ConfigurationLoader.class);
+	private static final Logger logger = LoggerFactory
+			.getLogger(ConfigurationLoader.class);
 
-  private static final String DATA_SENSOR_YAML = "data-sensor.yaml";
-  
-  private static final String MONITORINGS = "monitoring";
-  
-  private static final String TAGS = "registry";
+	private static final String DATA_SENSOR_YAML = "data-sensor.yaml";
 
-  private ConfigurationLoader() {}
-  
-  public static List<Pipeline> loadPipelines() {
-    List<Pipeline> pipelines = Lists.newArrayList(); 
-    pipelines.add(loadYamlConfig());
-    return pipelines;
-  }
+	private static final String MONITORINGS = "monitoring";
 
-  /**
-   * 加载Yaml配置文件，解析成Handler list.
-   */
-  private static Pipeline loadYamlConfig() {
-    Constructor constructor = new Constructor(TableInfos.class);
-    TypeDescription projectDesc = new TypeDescription(TableInfos.class);
-    projectDesc.putListPropertyType(MONITORINGS, TableInfo.class);
-    projectDesc.putListPropertyType(TAGS, HashMap.class);
-    constructor.addTypeDescription(
-        new TypeDescription(ExampleMonitor.class, "!ExampleMonitor"));
-    constructor.addTypeDescription(projectDesc);
-    constructor.getPropertyUtils().setSkipMissingProperties(true);
-    Yaml yaml = new Yaml(constructor);
-    TableInfos tableInfos = yaml.loadAs(
-    		ClassHelper.getClassLoader().getResourceAsStream(DATA_SENSOR_YAML), TableInfos.class);
+	private static final String MAPPER_RULE = "mapperRule";
 
-    Pipeline pipeLine = new StandardPipeline();
-    pipeLine.setBasic(new BasicHandler());
+	private ConfigurationLoader() {
+	}
 
-    return toHandlers(tableInfos, pipeLine);
-  }
+	public static List<Pipeline> loadPipelines() {
+		List<Pipeline> pipelines = Lists.newArrayList();
+		pipelines.add(loadYamlConfig());
+		return pipelines;
+	}
 
-  private static Pipeline toHandlers(TableInfos tableInfos, Pipeline pipeLine) {
+	/**
+	 * 加载Yaml配置文件，解析成Handler list.
+	 */
+	private static Pipeline loadYamlConfig() {
+		Constructor constructor = new Constructor(TableInfos.class);
+		TypeDescription projectDesc = new TypeDescription(TableInfos.class);
+		projectDesc.putListPropertyType(MONITORINGS, TableInfo.class);
+		projectDesc.putListPropertyType(MAPPER_RULE, ColumnRenamingRule.class);
+		// constructor.addTypeDescription(
+		// new TypeDescription(ExampleMonitor.class, "!ExampleMonitor"));
+		constructor.addTypeDescription(projectDesc);
+		constructor.getPropertyUtils().setSkipMissingProperties(true);
+		Yaml yaml = new Yaml(constructor);
+		TableInfos tableInfos = yaml.loadAs(ClassHelper.getClassLoader()
+				.getResourceAsStream(DATA_SENSOR_YAML), TableInfos.class);
 
-    List<TableInfo> monitorings = tableInfos.getMonitoring();
-    
-    if (monitorings != null) {
-      for (TableInfo info : monitorings) {
-        Monitor handler = info.getMonitor();
-        if (handler != null) {
-          handler.init(info, true);
-          pipeLine.addHandler(handler);
-        } else {
-          logger.warn("No hanlder defined or skip the handler for '{}'", info.getTableName());
-        }
-      }
-    }
+		Pipeline pipeLine = new StandardPipeline();
+		pipeLine.setBasic(new BasicHandler());
 
-    return pipeLine;
-  }
+		return toHandlers(tableInfos, pipeLine);
+	}
+
+	private static Pipeline toHandlers(TableInfos tableInfos, Pipeline pipeLine) {
+
+		List<TableInfo> monitorings = tableInfos.getMonitoring();
+
+		if (monitorings != null) {
+			for (TableInfo info : monitorings) {
+				Handler handler = null;
+				try {
+					handler = (Handler) ClassHelper.forName(info.getHandler())
+							.newInstance();
+					handler.init(info, tableInfos.getMapperRule());
+					pipeLine.addHandler(handler);
+				} catch (Exception e) {
+					logger.error("Error for handler instantiation for '{}'",
+							info.getHandler(), e);
+				}
+			}  
+		}
+		return pipeLine;
+	}
 
 }

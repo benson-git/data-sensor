@@ -1,4 +1,4 @@
-#Global意味这些表的数据的更新的影响是全局的，需要全部全新处理缓存数据
+#配置监控信息
  monitoring:
     - tableName: AMNT_MatchingRule
       columnNames: 
@@ -6,21 +6,30 @@
        - ItemMaxScore
       eventTypes:
        - update
-      monitor: 
+      handler: 
          com.github.ibole.data.sensor.exporter.monitor.ExampleMonitor
     - tableName: AMNT_Specialist
       columnNames:
        - Score
       eventTypes:
-       truncate: 
-       update: 
-       insert:
-       delete:
-      monitor: 
+       - truncate
+       - update
+       - insert
+       - delete
+      handler: 
          com.github.ibole.data.sensor.exporter.monitor.ExampleMonitor
     - tableName: AMNT_SpecMainResScore
       #不明确指定列名，表示监听所有列字段
       #columnNames:
       #不明确指定事件，表示监听所有事件
-      monitor: 
-         com.github.ibole.data.sensor.exporter.monitor.ExampleMonitor               
+      #eventTypes:
+      handler: 
+         com.github.ibole.data.sensor.exporter.monitor.ExampleMonitor
+         
+#配置列名替换规则
+ mapperRule:
+   - searchString: ^AMNT
+     replaceString:
+  
+  
+              

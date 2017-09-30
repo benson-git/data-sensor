@@ -13,11 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.github.ibole.data.sensor.common.monitor;
+package com.github.ibole.data.sensor.common.handler;
 
+import com.github.ibole.data.sensor.common.model.canal.DbColumn;
+import com.github.ibole.data.sensor.common.model.canal.DbRow;
 import com.github.ibole.data.sensor.common.model.canal.DbTable;
+import com.github.ibole.data.sensor.common.model.yaml.ColumnRenamingRule;
+import com.github.ibole.data.sensor.common.util.BeanUtil;
+import com.github.ibole.data.sensor.common.util.JsonUtil;
 
 import com.google.common.base.MoreObjects;
+
+import java.util.List;
 
 /*********************************************************************************************.
  * 
@@ -35,43 +42,27 @@ import com.google.common.base.MoreObjects;
  */
 public class RuntimeData {
 
-  private DbTable dbTable;
-  //是否在管道流的处理过程中,有global handler处理过DbTable.
-  private boolean globalHandler;
+	private DbTable dbTable;
 
-  /**
-   * @return the dbTable
-   */
-  public DbTable getDbTable() {
-    return dbTable;
-  }
+	/**
+	 * @return the dbTable
+	 */
+	public DbTable getDbTable() {
+		return dbTable;
+	}
 
-  /**
-   * @param dbTable the dbTable to set
-   */
-  public void setDbTable(DbTable dbTable) {
-    this.dbTable = dbTable;
-  }
+	/**
+	 * @param dbTable
+	 *            the dbTable to set
+	 */
+	public void setDbTable(DbTable dbTable) {
+		this.dbTable = dbTable;
+	}
 
-  /**
-   * @return the globalHandler
-   */
-  public boolean isGlobalHandler() {
-    return globalHandler;
-  }
+	@Override
+	public String toString() {
+		return MoreObjects.toStringHelper(this).add("dbTable", dbTable)
+				.toString();
 
-  /**
-   * @param globalHandler the globalHandler to set
-   */
-  public void setGlobalHandler(boolean globalHandler) {
-    this.globalHandler = globalHandler;
-  }
-  
-  @Override
-  public String toString() {
-    return MoreObjects.toStringHelper(this)
-        .add("dbTable", dbTable)
-        .add("globalHandler", globalHandler).toString();
-
-  }
+	}
 }

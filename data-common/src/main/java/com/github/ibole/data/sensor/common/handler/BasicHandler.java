@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.github.ibole.data.sensor.common.monitor;
+package com.github.ibole.data.sensor.common.handler;
 
 import com.github.ibole.data.sensor.common.model.canal.DbTable;
 
@@ -31,11 +31,11 @@ import com.github.ibole.data.sensor.common.model.canal.DbTable;
  * @author bwang
  *
  */
-public class BasicHandler extends AbstractMonitor {
+public class BasicHandler extends AbstractHandler {
 
 
   @Override
-  public boolean match(DbTable dbTable) {
+  public boolean filter(DbTable dbTable) {
     
     return false;
   }

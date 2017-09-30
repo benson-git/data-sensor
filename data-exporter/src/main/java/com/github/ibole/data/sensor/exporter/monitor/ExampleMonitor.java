@@ -1,8 +1,8 @@
 package com.github.ibole.data.sensor.exporter.monitor;
 
-import com.github.ibole.data.sensor.common.monitor.AbstractMonitor;
-import com.github.ibole.data.sensor.common.monitor.Monitor;
-import com.github.ibole.data.sensor.common.monitor.RuntimeData;
+import com.github.ibole.data.sensor.common.handler.AbstractHandler;
+import com.github.ibole.data.sensor.common.handler.Handler;
+import com.github.ibole.data.sensor.common.handler.RuntimeData;
 
 
 /**
@@ -11,7 +11,7 @@ import com.github.ibole.data.sensor.common.monitor.RuntimeData;
  * @author bwang
  *
  */
-public class ExampleMonitor extends AbstractMonitor implements Monitor {
+public class ExampleMonitor extends AbstractHandler implements Handler {
 
   @Override
   public void doProcess(RuntimeData runtimeData) {

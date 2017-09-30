@@ -16,6 +16,8 @@
 
 package com.github.ibole.data.sensor.common.handler;
 
+import com.github.ibole.data.sensor.common.model.canal.EventType;
+
 /*********************************************************************************************.
  * 
  * 
@@ -28,6 +30,15 @@ package com.github.ibole.data.sensor.common.handler;
  * @author bwang
  *
  */
-public interface EventHandler {
+public class EventHandler extends AbstractHandler {
+
+	/* 
+	 * @see com.github.ibole.data.sensor.common.handler.AbstractHandler#doProcess(com.github.ibole.data.sensor.common.handler.RuntimeData)
+	 */
+	@Override
+	public void doProcess(RuntimeData runtimeData) {
+		EventType eventType = runtimeData.getDbTable().getEventType();
+
+	}
 
 }

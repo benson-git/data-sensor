@@ -23,7 +23,7 @@ package com.github.ibole.data.sensor.common.model.canal;
  * <p></p>
  *********************************************************************************************/
 /**
- * Monitor the data changes from dml, ignore the ddl.
+ * Handler the data changes from dml, ignore the ddl.
  * 
  * @author bwang
  *
