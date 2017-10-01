@@ -13,8 +13,6 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<properties>
-		<!-- hcloud infra libs -->
-		<infrastructure.version>1.10.0</infrastructure.version>
 		<spring.boot.starter.redis.version>1.5.2.RELEASE</spring.boot.starter.redis.version>
 		<spring.messaging.version>4.3.7.RELEASE</spring.messaging.version>
 		<spring.kafka.version>1.2.1.RELEASE</spring.kafka.version>
