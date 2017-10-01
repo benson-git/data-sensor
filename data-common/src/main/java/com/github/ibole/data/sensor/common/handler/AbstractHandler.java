@@ -64,6 +64,7 @@ public abstract class AbstractHandler implements Handler {
 	public void init(TableInfo tableInfo, List<ColumnRenamingRule> mapperRule) {
 		this.tableInfo = tableInfo;
         this.mapperRule = mapperRule;
+        registerProcessor();
 	}
 
 	protected TableInfo getTableInfo() {
@@ -105,6 +106,11 @@ public abstract class AbstractHandler implements Handler {
 	 *            运行时Handler要处理的数据.
 	 */
 	public abstract void doProcess(RuntimeData runtimeData);
+	
+	/**
+	 * 注册处理器.
+	 */
+	public abstract void registerProcessor();
 
 	/**
 	 * 处理匹配计算.
@@ -115,6 +121,7 @@ public abstract class AbstractHandler implements Handler {
 	public void process(RuntimeData runtimeData) {
 
 		if (filter(runtimeData.getDbTable())) {
+			runtimeData.setMapperRule(getMapperRule());
 			doProcess(runtimeData);
 		} else {
 			logger.info("Skip to handle '{}'", runtimeData.getDbTable()

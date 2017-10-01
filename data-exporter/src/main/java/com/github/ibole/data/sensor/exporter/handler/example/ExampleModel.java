@@ -13,66 +13,61 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.github.ibole.data.sensor.common.handler;
 
-import com.github.ibole.data.sensor.common.model.canal.DbTable;
-import com.github.ibole.data.sensor.common.model.yaml.ColumnRenamingRule;
+package com.github.ibole.data.sensor.exporter.handler.example;
 
 import com.google.common.base.MoreObjects;
-
-import java.util.List;
 
 /*********************************************************************************************.
  * 
  * 
- * <p>Copyright 2016, iBole Inc. All rights reserved.
+ * <p>Copyright 2017, iBole Inc. All rights reserved.
  * 
  * <p></p>
  *********************************************************************************************/
 
 /**
- * 在管道流处理过程中的运行时数据,会被各个handler处理.
- * 
  * @author bwang
  *
  */
-public class RuntimeData {
+public class ExampleModel {
 
-	private DbTable dbTable;
-	protected List<ColumnRenamingRule> mapperRule;
+	private long id;
+	
+	private String userName;
+
 	/**
-	 * @return the dbTable
+	 * @return the id
 	 */
-	public DbTable getDbTable() {
-		return dbTable;
+	public long getId() {
+		return id;
 	}
 
 	/**
-	 * @param dbTable
-	 *            the dbTable to set
+	 * @param id the id to set
 	 */
-	public void setDbTable(DbTable dbTable) {
-		this.dbTable = dbTable;
+	public void setId(long id) {
+		this.id = id;
 	}
 
 	/**
-	 * @return the mapperRule
+	 * @return the userName
 	 */
-	public List<ColumnRenamingRule> getMapperRule() {
-		return mapperRule;
+	public String getUserName() {
+		return userName;
 	}
 
 	/**
-	 * @param mapperRule the mapperRule to set
+	 * @param userName the userName to set
 	 */
-	public void setMapperRule(List<ColumnRenamingRule> mapperRule) {
-		this.mapperRule = mapperRule;
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
-
+	
 	@Override
 	public String toString() {
-		return MoreObjects.toStringHelper(this).add("dbTable", dbTable)
-				.add("mapperRule", mapperRule).toString();
+		return MoreObjects.toStringHelper(this).add("id", id)
+				.add("userName", userName).toString();
 
 	}
 }

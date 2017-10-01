@@ -77,7 +77,7 @@ public final class ConfigurationLoader {
 		projectDesc.putListPropertyType(MONITORINGS, TableInfo.class);
 		projectDesc.putListPropertyType(MAPPER_RULE, ColumnRenamingRule.class);
 		// constructor.addTypeDescription(
-		// new TypeDescription(ExampleMonitor.class, "!ExampleMonitor"));
+		// new TypeDescription(ExampleEventHandler.class, "!ExampleEventHandler"));
 		constructor.addTypeDescription(projectDesc);
 		constructor.getPropertyUtils().setSkipMissingProperties(true);
 		Yaml yaml = new Yaml(constructor);

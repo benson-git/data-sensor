@@ -13,49 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.github.ibole.data.sensor.common.handler;
 
-import com.github.ibole.data.sensor.common.model.canal.DbTable;
+package com.github.ibole.data.sensor.common.handler.event;
+
+import com.github.ibole.data.sensor.common.handler.RuntimeData;
 
 /*********************************************************************************************.
  * 
  * 
- * <p>Copyright 2016, iBole Inc. All rights reserved.
+ * <p>Copyright 2017, iBole Inc. All rights reserved.
  * 
  * <p></p>
  *********************************************************************************************/
 
 /**
- * 
+ * 事件处理器.
  * @author bwang
  *
  */
-public class BasicHandler extends AbstractHandler {
-
-	@Override
-	public boolean filter(DbTable dbTable) {
-
-		return false;
-	}
-
-	@Override
-	public void doProcess(RuntimeData runtimeData) {
-
-		logger.info("执行Handler '{} '", this.getClass().getName());
-
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.github.ibole.data.sensor.common.handler.AbstractHandler#registerProcessor
-	 * ()
-	 */
-	@Override
-	public void registerProcessor() {
-		// NO-OP.
-
-	}
-
+public interface Processor {
+    /**
+     * 处理运行时数据.
+     * @param runtimeData 运行时数据.
+     */
+	void process(RuntimeData runtimeData);
 }

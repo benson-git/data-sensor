@@ -16,7 +16,11 @@
 
 package com.github.ibole.data.sensor.common.handler;
 
+import com.github.ibole.data.sensor.common.handler.event.Processor;
 import com.github.ibole.data.sensor.common.model.canal.EventType;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /*********************************************************************************************.
  * 
@@ -30,15 +34,29 @@ import com.github.ibole.data.sensor.common.model.canal.EventType;
  * @author bwang
  *
  */
-public class EventHandler extends AbstractHandler {
+public abstract class EventHandler extends AbstractHandler {
 
-	/* 
-	 * @see com.github.ibole.data.sensor.common.handler.AbstractHandler#doProcess(com.github.ibole.data.sensor.common.handler.RuntimeData)
+	private Map<EventType, Processor> processors = new HashMap<>();
+
+	/*
+	 * @see
+	 * com.github.ibole.data.sensor.common.handler.AbstractHandler#doProcess
+	 * (com.github.ibole.data.sensor.common.handler.RuntimeData)
 	 */
 	@Override
 	public void doProcess(RuntimeData runtimeData) {
 		EventType eventType = runtimeData.getDbTable().getEventType();
+		Processor processor = processors.get(eventType);
+		if (processor != null) {
+			processor.process(runtimeData);
+		} else {
+			this.logger.warn("No processor found for event type '{}'",
+					eventType);
+		}
+	}
 
+	public Map<EventType, Processor> getProcessors() {
+		return processors;
 	}
 
 }

@@ -2,12 +2,12 @@
  monitoring:
     - tableName: AMNT_MatchingRule
       columnNames: 
-       - ItemScore
-       - ItemMaxScore
+       - id
+       - userName
       eventTypes:
        - update
       handler: 
-         com.github.ibole.data.sensor.exporter.monitor.ExampleMonitor
+         com.github.ibole.data.sensor.exporter.handler.example.ExampleEventHandler
     - tableName: AMNT_Specialist
       columnNames:
        - Score
@@ -17,14 +17,14 @@
        - insert
        - delete
       handler: 
-         com.github.ibole.data.sensor.exporter.monitor.ExampleMonitor
+         com.github.ibole.data.sensor.exporter.handler.example.ExampleEventHandler
     - tableName: AMNT_SpecMainResScore
       #不明确指定列名，表示监听所有列字段
       #columnNames:
       #不明确指定事件，表示监听所有事件
       #eventTypes:
       handler: 
-         com.github.ibole.data.sensor.exporter.monitor.ExampleMonitor
+         com.github.ibole.data.sensor.exporter.handler.example.ExampleEventHandler
          
 #配置列名替换规则
  mapperRule:

@@ -13,49 +13,37 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.github.ibole.data.sensor.common.handler;
 
-import com.github.ibole.data.sensor.common.model.canal.DbTable;
+package com.github.ibole.data.sensor.exporter.handler.example;
+
+import com.github.ibole.data.sensor.common.handler.event.AbstractProcessor;
+
+import java.util.List;
 
 /*********************************************************************************************.
  * 
  * 
- * <p>Copyright 2016, iBole Inc. All rights reserved.
+ * <p>Copyright 2017, iBole Inc. All rights reserved.
  * 
  * <p></p>
  *********************************************************************************************/
 
 /**
- * 
  * @author bwang
+ * @param <ExampleModel>
  *
  */
-public class BasicHandler extends AbstractHandler {
+public class ExampleUpdateProcessor extends AbstractProcessor<ExampleModel> {
 
-	@Override
-	public boolean filter(DbTable dbTable) {
-
-		return false;
-	}
-
-	@Override
-	public void doProcess(RuntimeData runtimeData) {
-
-		logger.info("执行Handler '{} '", this.getClass().getName());
-
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.github.ibole.data.sensor.common.handler.AbstractHandler#registerProcessor
-	 * ()
+	/* 
+	 * @see com.github.ibole.data.sensor.common.handler.event.AbstractProcessor#doProcess(java.util.List)
 	 */
 	@Override
-	public void registerProcessor() {
-		// NO-OP.
-
+	public void doProcess(List<ExampleModel> models) {
+		System.out.println("Example update event");
+		for(ExampleModel example : models) {
+			System.out.println(example.toString());
+		}
 	}
 
 }
