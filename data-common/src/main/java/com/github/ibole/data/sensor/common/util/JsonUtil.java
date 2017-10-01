@@ -24,8 +24,17 @@ import com.github.ibole.data.sensor.common.model.yaml.ColumnRenamingRule;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.gson.reflect.TypeToken;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /*********************************************************************************************.
  * 
@@ -41,14 +50,16 @@ import java.util.List;
  */
 public final class JsonUtil {
 
-	private JsonUtil() {
-		super();
+	private static Gson gson = null;
+
+	static {
+		gson = new Gson();// todo yyyy-MM-dd HH:mm:ss
 	}
 
 	public static String string2Json(String s) {
-        if(Strings.isNullOrEmpty(s)) {
-        	return "";
-        }
+		if (Strings.isNullOrEmpty(s)) {
+			return "";
+		}
 		StringBuffer sb = new StringBuffer();
 		for (int i = 0; i < s.length(); i++) {
 
@@ -153,41 +164,77 @@ public final class JsonUtil {
 		}
 		return calculatedColumnName;
 	}
-	
+
+	public static String toJson(Object obj) {
+		return gson.toJson(obj);
+	}
+
+	public static <T> T toBean(String json, Class<T> clz) {
+		return gson.fromJson(json, clz);
+	}
+
+	public static <T> Map<String, T> toMap(String json, Class<T> clz) {
+		Map<String, JsonObject> map = gson.fromJson(json,
+				new TypeToken<Map<String, JsonObject>>() {
+				}.getType());
+		Map<String, T> result = new HashMap<>();
+		for (String key : map.keySet()) {
+			result.put(key, gson.fromJson(map.get(key), clz));
+		}
+		return result;
+	}
+
+	public static Map<String, Object> toMap(String json) {
+		Map<String, Object> map = gson.fromJson(json,
+				new TypeToken<Map<String, Object>>() {
+				}.getType());
+		return map;
+	}
+
+	public static <T> List<T> toList(String json, Class<T> clz) {
+		JsonArray array = new JsonParser().parse(json).getAsJsonArray();
+		List<T> list = new ArrayList<>();
+		for (final JsonElement elem : array) {
+			list.add(gson.fromJson(elem, clz));
+		}
+		return list;
+	}
+
 	public static void main(String[] args) {
-		
-		List<ColumnRenamingRule> rules = Lists.newArrayList(); 
+
+		List<ColumnRenamingRule> rules = Lists.newArrayList();
 		ColumnRenamingRule rule = new ColumnRenamingRule();
 		rule.setSearchString("^USER");
 		rules.add(rule);
-		
+
 		DbTable dbTable = new DbTable("AMNT_MatchingRule");
 		dbTable.setEventType(EventType.UPDATE);
 		List<DbRow> rows = Lists.newArrayList();
 		DbRow row1 = new DbRow();
 		DbRow row2 = new DbRow();
-		
+
 		List<DbColumn> columns = Lists.newArrayList();
-		
+
 		DbColumn column1 = new DbColumn();
 		column1.setName("USER_Item_Score_core");
 		column1.setValue("\"");
 		column1.setMysqlType("varchar");
-		
+
 		DbColumn column2 = new DbColumn();
 		column2.setName("USER_Item_Detail_core");
 		column2.setMysqlType("bigint");
 		column2.setValue("333");
 		columns.add(column1);
 		columns.add(column2);
-		
+
 		row1.setColumn(columns);
 		row2.setColumn(columns);
-		
+
 		rows.add(row1);
 		rows.add(row2);
 		dbTable.setRows(rows);
-		
+
 		System.out.println(toJson(dbTable, rules));
 	}
+
 }

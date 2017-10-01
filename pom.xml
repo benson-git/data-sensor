@@ -159,6 +159,7 @@
     <module>data-importer</module>
     <module>data-common</module>
     <module>data-exporter</module>
+    <module>data-kafka</module>
 	</modules>
 
 </project>
