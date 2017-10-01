@@ -20,9 +20,9 @@ import com.github.ibole.data.sensor.common.handler.Handler;
 import com.github.ibole.data.sensor.common.model.yaml.ColumnRenamingRule;
 import com.github.ibole.data.sensor.common.model.yaml.TableInfo;
 import com.github.ibole.data.sensor.common.model.yaml.TableInfos;
+import com.github.ibole.data.sensor.common.util.ClassHelper;
 import com.github.ibole.data.sensor.exporter.pipeline.Pipeline;
 import com.github.ibole.data.sensor.exporter.pipeline.StandardPipeline;
-import com.github.ibole.infrastructure.common.utils.ClassHelper;
 
 import com.google.common.collect.Lists;
 

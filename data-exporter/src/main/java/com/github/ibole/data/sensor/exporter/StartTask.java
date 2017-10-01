@@ -2,10 +2,10 @@ package com.github.ibole.data.sensor.exporter;
 
 import com.github.ibole.data.sensor.exporter.pipeline.Pipeline;
 import com.github.ibole.data.sensor.exporter.yaml.ConfigurationLoader;
-import com.github.ibole.infrastructure.common.spring.SpringContextHolder;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -30,6 +30,8 @@ public class StartTask {
 
 	private static final Logger logger = LoggerFactory
 			.getLogger(StartTask.class);
+	
+	@Autowired
 	private ConsumerThread moniotrTask;
 
 	@Value("${consumer.taskname}")
@@ -46,8 +48,8 @@ public class StartTask {
 
 		logger.info("监控任务的总Pipeline数：{}", list.size());
 
-		moniotrTask = SpringContextHolder.getBean("consumerTask",
-				ConsumerThread.class);
+		//moniotrTask = SpringContextHolder.getBean("consumerTask",
+				//ConsumerThread.class);
 		moniotrTask.setName(taskName);
 		moniotrTask.setTopic(topic);
 		moniotrTask.setPipelines(list);

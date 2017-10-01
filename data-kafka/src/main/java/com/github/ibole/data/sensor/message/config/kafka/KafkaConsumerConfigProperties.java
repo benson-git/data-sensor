@@ -16,7 +16,7 @@
 
 package com.github.ibole.data.sensor.message.config.kafka;
 
-import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+import com.google.common.base.MoreObjects;
 
 /*********************************************************************************************.
  * 
@@ -62,7 +62,9 @@ public class KafkaConsumerConfigProperties {
 
 	@Override
 	public String toString() {
-		return ReflectionToStringBuilder.toString(this);
+		return MoreObjects.toStringHelper(this).add("groupId", groupId)
+				.add("autoCommitOffset", autoCommitOffset)
+				.add("pollTimeout", pollTimeout).toString();
 	}
 
 }

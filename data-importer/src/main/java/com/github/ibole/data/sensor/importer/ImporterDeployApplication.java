@@ -1,15 +1,12 @@
 package com.github.ibole.data.sensor.importer;
 
 import com.github.ibole.data.sensor.message.config.kafka.KafkaProducerConfiguration;
-import com.github.ibole.infrastructure.common.spring.SpringContextHolder;
 
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.DependsOn;
 import org.springframework.context.annotation.Import;
 
 /*********************************************************************************************
@@ -45,14 +42,14 @@ public class ImporterDeployApplication {
 		SpringApplication.run(ImporterDeployApplication.class, args);
 	}
 
-	@Bean
-	@Qualifier("springContextHolder")
-	public SpringContextHolder springContextHolder() {
-		return new SpringContextHolder();
-	}
+//	@Bean
+//	@Qualifier("springContextHolder")
+//	public SpringContextHolder springContextHolder() {
+//		return new SpringContextHolder();
+//	}
 
 	@Bean
-	@DependsOn(value="springContextHolder")
+	//@DependsOn(value="springContextHolder")
 	public CanalClient canalClient() {
 		CanalClient client = new CanalClient();
 		// launch the Cannel listener

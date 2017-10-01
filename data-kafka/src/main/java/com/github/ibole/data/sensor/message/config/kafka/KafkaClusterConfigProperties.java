@@ -16,7 +16,8 @@
 
 package com.github.ibole.data.sensor.message.config.kafka;
 
-import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+import com.google.common.base.MoreObjects;
+
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
@@ -58,9 +59,10 @@ public class KafkaClusterConfigProperties {
 		this.consumer = consumer;
 	}
 
-  @Override
+	@Override
 	public String toString() {
-		return ReflectionToStringBuilder.toString(this);
+		return MoreObjects.toStringHelper(this).add("address", address)
+				.add("consumer", consumer).toString();
 	}
 
 }

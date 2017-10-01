@@ -1,9 +1,9 @@
 package com.github.ibole.data.sensor.importer;
 
+import com.github.ibole.data.sensor.common.exception.GenericRuntimeException;
 import com.github.ibole.data.sensor.common.model.canal.DbColumn;
 import com.github.ibole.data.sensor.common.model.canal.DbRow;
 import com.github.ibole.data.sensor.common.model.canal.DbTable;
-import com.github.ibole.infrastructure.common.exception.GenericRuntimeException;
 
 import com.alibaba.otter.canal.client.CanalConnector;
 import com.alibaba.otter.canal.protocol.CanalEntry.Column;
