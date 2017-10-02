@@ -18,7 +18,7 @@ public class ExampleEventHandler extends EventHandler {
 	 */
 	@Override
 	public void registerProcessor() {
-		getProcessors().put(EventType.DELETE, new ExampleUpdateProcessor());
+		getProcessors().put(EventType.UPDATE, new ExampleUpdateProcessor());
 
 	}
 

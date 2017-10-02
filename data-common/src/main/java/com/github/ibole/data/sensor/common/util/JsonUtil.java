@@ -127,25 +127,40 @@ public final class JsonUtil {
 
 	private static boolean isStringValue(String mySqlType) {
 		boolean isString = true;
-		switch (mySqlType.toUpperCase()) {
+		String pureMysqlType = mySqlType;
+		//mysqlType=varchar(100)
+		int index = mySqlType.indexOf('(');
+		if(index > 0) {
+		   pureMysqlType = mySqlType.substring(0, index);
+		}
+		switch (pureMysqlType.toUpperCase()) {
 		case "BIT":
 			isString = false;
+			break;
 		case "TINYINT":
 			isString = false;
+			break;
 		case "SMALLINT":
 			isString = false;
+			break;
 		case "INTEGER":
 			isString = false;
+			break;
 		case "BIGINT":
 			isString = false;
+			break;
 		case "FLOAT":
 			isString = false;
+			break;
 		case "DOUBLE":
 			isString = false;
+			break;
 		case "NUMERIC":
 			isString = false;
+			break;
 		case "DECIMAL":
 			isString = false;
+			break;
 		}
 		return isString;
 	}
@@ -218,11 +233,11 @@ public final class JsonUtil {
 		DbColumn column1 = new DbColumn();
 		column1.setName("USER_Item_Score_core");
 		column1.setValue("\"");
-		column1.setMysqlType("varchar");
+		column1.setMysqlType("varchar(20)");
 
 		DbColumn column2 = new DbColumn();
 		column2.setName("USER_Item_Detail_core");
-		column2.setMysqlType("bigint");
+		column2.setMysqlType("bigint(20)");
 		column2.setValue("333");
 		columns.add(column1);
 		columns.add(column2);

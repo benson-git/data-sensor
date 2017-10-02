@@ -1,6 +1,6 @@
 #配置监控信息
  monitoring:
-    - tableName: AMNT_MatchingRule
+    - tableName: AMNT_MatchingRule1
       columnNames: 
        - id
        - userName
